@@ -2105,6 +2105,7 @@ win:
     SET "CARGO_HOME=%THIRDPARTY_DIR%\\rust\\cargo"
     SET RUSTUP_TOOLCHAIN=""" + rustToolchain + """
     SET "PATH=%CARGO_HOME%\\bin;%PATH%"
+    SET CARGO_INCREMENTAL=0
 win32:
     SET "RUST_TARGET=i686-win7-windows-msvc"
     SET "RUST_BUILD_STD=-Z build-std=std,panic_abort"
@@ -2146,6 +2147,7 @@ mac:
     export CARGO_HOME=$THIRDPARTY_DIR/rust/cargo
     export RUSTUP_TOOLCHAIN=""" + rustToolchain + """
     export PATH=$CARGO_HOME/bin:$PATH
+    export CARGO_INCREMENTAL=0
     cargo new --lib --vcs none tdesktop_rust
     cd tdesktop_rust
     printf 'pub use ::tlottie;\\npub use ::wallet_engine;\\n' > src/lib.rs
