@@ -2105,6 +2105,7 @@ win:
     SET "CARGO_HOME=%THIRDPARTY_DIR%\\rust\\cargo"
     SET RUSTUP_TOOLCHAIN=""" + rustToolchain + """
     SET "PATH=%CARGO_HOME%\\bin;%PATH%"
+    SET CARGO_INCREMENTAL=0
 win32:
     SET "RUST_TARGET=i686-win7-windows-msvc"
     SET "RUST_BUILD_STD=-Z build-std=std,panic_abort"
@@ -2137,15 +2138,17 @@ win:
     mkdir out\\lib out\\include out\\include\\tlottie out\\include\\wallet_engine out\\src out\\src\\wallet_engine
     copy target\\%RUST_TARGET%\\release\\tdesktop_rust.lib out\\lib\\tdesktop_rust.lib
     copy ..\\tlottie\\include\\tlottie.h out\\include\\tlottie\\tlottie.h
-    cargo run --manifest-path ..\\wallet-engine\\bindgen\\cpp\\bindgen\\Cargo.toml --locked -- ^
+    cargo run --release --manifest-path ..\\wallet-engine\\bindgen\\cpp\\bindgen\\Cargo.toml --locked -- ^
         --library --out-dir out\\include\\wallet_engine ^
         target\\%RUST_TARGET%\\release\\tdesktop_rust.dll
     move out\\include\\wallet_engine\\wallet_engine.cpp out\\src\\wallet_engine\\wallet_engine.cpp
+    rd /s /q ..\\wallet-engine\\bindgen\\cpp\\target
 mac:
     export RUSTUP_HOME=$THIRDPARTY_DIR/rust/rustup
     export CARGO_HOME=$THIRDPARTY_DIR/rust/cargo
     export RUSTUP_TOOLCHAIN=""" + rustToolchain + """
     export PATH=$CARGO_HOME/bin:$PATH
+    export CARGO_INCREMENTAL=0
     cargo new --lib --vcs none tdesktop_rust
     cd tdesktop_rust
     printf 'pub use ::tlottie;\\npub use ::wallet_engine;\\n' > src/lib.rs
@@ -2167,10 +2170,11 @@ mac:
     mkdir -p $USED_PREFIX/lib $USED_PREFIX/include/tlottie $USED_PREFIX/include/wallet_engine $USED_PREFIX/src/wallet_engine
     lipo -create target/aarch64-apple-darwin/release/libtdesktop_rust.a target/x86_64-apple-darwin/release/libtdesktop_rust.a -output $USED_PREFIX/lib/libtdesktop_rust.a
     cp ../tlottie/include/tlottie.h $USED_PREFIX/include/tlottie/tlottie.h
-    cargo run --manifest-path ../wallet-engine/bindgen/cpp/bindgen/Cargo.toml --locked -- \\
+    cargo run --release --manifest-path ../wallet-engine/bindgen/cpp/bindgen/Cargo.toml --locked -- \\
         --library --out-dir $USED_PREFIX/include/wallet_engine \\
         target/aarch64-apple-darwin/release/libtdesktop_rust.dylib
     mv $USED_PREFIX/include/wallet_engine/wallet_engine.cpp $USED_PREFIX/src/wallet_engine/wallet_engine.cpp
+    rm -rf ../wallet-engine/bindgen/cpp/target
 """)
 
 if win:
