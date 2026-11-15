@@ -82,6 +82,7 @@ jobs:
           Remove-Item "C:\Android\android-sdk", "C:\Program Files\dotnet", "C:\Miniconda", "C:\msys64", "$env:USERPROFILE\.cargo", "$env:USERPROFILE\.rustup", "$env:LOCALAPPDATA\Docker", "C:\ProgramData\DockerDesktop", "C:\Program Files\PostgreSQL", "C:\PostgreSQL", "C:\Program Files\MongoDB", "C:\Program Files\MySQL", "C:\ProgramData\Microsoft\VisualStudio\Packages" -Recurse -Force -ErrorAction SilentlyContinue
           Remove-Item C:\hostedtoolcache\windows\Go*, C:\hostedtoolcache\windows\Ruby*, C:\hostedtoolcache\windows\PyPy*, C:\hostedtoolcache\windows\Java_* -Recurse -Force -ErrorAction SilentlyContinue
           Write-Host ('{0:N1} GB -> {1:N1} GB free' -f $before, ((Get-PSDrive C).Free / 1GB))
+          exit 0
 
       - name: Prepare directories.
         run: |
