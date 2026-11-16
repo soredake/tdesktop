@@ -2142,7 +2142,6 @@ win:
         --library --out-dir out\\include\\wallet_engine ^
         target\\%RUST_TARGET%\\release\\tdesktop_rust.dll
     move out\\include\\wallet_engine\\wallet_engine.cpp out\\src\\wallet_engine\\wallet_engine.cpp
-    rd /s /q ..\\wallet-engine\\bindgen\\cpp\\target
 mac:
     export RUSTUP_HOME=$THIRDPARTY_DIR/rust/rustup
     export CARGO_HOME=$THIRDPARTY_DIR/rust/cargo
@@ -2174,7 +2173,6 @@ mac:
         --library --out-dir $USED_PREFIX/include/wallet_engine \\
         target/aarch64-apple-darwin/release/libtdesktop_rust.dylib
     mv $USED_PREFIX/include/wallet_engine/wallet_engine.cpp $USED_PREFIX/src/wallet_engine/wallet_engine.cpp
-    rm -rf ../wallet-engine/bindgen/cpp/target
 """)
 
 if win:
